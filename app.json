@@ -5,6 +5,11 @@
       "bundler": "metro"
     },
     "name": "flowertopia",
-    "slug": "flowertopia"
+    "slug": "flowertopia",
+    "splash": {
+      "image": "./assets/splashscreen.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#fff"
+    }
   }
 }
