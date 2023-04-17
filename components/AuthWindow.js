@@ -5,7 +5,7 @@ import {
   TextInput,
   StyleSheet,
   Image,
-  CheckBox,
+  Checkbox,
 } from 'react-native';
 import { colors } from '../constants/colors';
 import Button from './Button';
@@ -87,14 +87,15 @@ const AuthWindow = ({ onClose, isCreateAccount }) => {
             value={password}
             onChangeText={setPassword}
           />
-          <View style={styles.checkboxContainer}>
+          {/* TODO: Add Checbox component */}
+          {/* <View style={styles.checkboxContainer}>
             <CheckBox
               value={isSelected}
               onValueChange={setSelection}
               style={styles.checkbox}
             />
             <Text style={styles.label}>Remember me</Text>
-          </View>
+          </View> */}
           <Button
             bgColor={colors.slateBlue}
             borderRadius={5}
@@ -188,8 +189,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Overlock',
     fontStyle: 'normal',
     fontWeight: 400,
-    fontSize: '16px',
-    lineHeight: '10px',
+    fontSize: 16,
+    lineHeight: 10,
     color: 'rgba(103, 140, 150, 0.6)',
   },
   loginBackground: {
@@ -210,8 +211,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Overlock',
     fontStyle: 'normal',
     fontWeight: 400,
-    fontSize: '16px',
-    lineHeight: '10px',
+    fontSize: 16,
+    lineHeight: 10,
     margin: 5,
     color: 'rgba(103, 140, 150, 0.6)',
   },
@@ -227,8 +228,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'normal',
     fontWeight: 400,
-    fontSize: '16px',
-    lineHeight: '12px',
+    fontSize: 16,
+    lineHeight: 12,
     color: colors.slateBlue,
     marginBottom: 10,
   },
