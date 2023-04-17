@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Text, View, Image, StyleSheet } from 'react-native';
-import * as SplashScreen from 'expo-splash-screen';
-import Button from '../components/Button';
-import { colors } from '../constants/colors';
-import { useFonts } from 'expo-font';
-import AuthWindow from '../components/AuthWindow';
+import React, { useCallback, useEffect, useState } from "react";
+import { Text, View, Image, StyleSheet } from "react-native";
+import * as SplashScreen from "expo-splash-screen";
+import Button from "../components/Button";
+import { colors } from "../constants/colors";
+import { useFonts } from "expo-font";
+import AuthWindow from "../components/AuthWindow";
+import Notification from "../components/Notification";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -15,7 +16,7 @@ export default function App(props) {
   const [isCreateAccount, setIsCreateAccount] = useState(false);
 
   let [fontsLoaded] = useFonts({
-    Overlock: require('../assets/fonts/Overlock-Black.ttf'),
+    Overlock: require("../assets/fonts/Overlock-Black.ttf"),
   });
 
   const handleSignInClick = () => {
@@ -49,9 +50,10 @@ export default function App(props) {
   if (fontsLoaded) {
     return (
       <View
-        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         onLayout={onLayoutRootView}
       >
+        <Notification />
         {showAuthWindow && (
           <AuthWindow
             isCreateAccount={isCreateAccount}
@@ -60,13 +62,13 @@ export default function App(props) {
         )}
         {!showAuthWindow && (
           <View
-            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
             onLayout={onLayoutRootView}
           >
             <View style={styles.logoWrapper}>
               <Image
                 style={styles.logoImage}
-                source={require('../assets/flowertopia-logo.svg')}
+                source={require("../assets/flowertopia-logo.svg")}
               />
               <Text style={styles.heading}>
                 Support your local by creating beautiful bouquets
@@ -78,7 +80,7 @@ export default function App(props) {
               buttonHeight={50}
               borderRadius={20}
               textColor={colors.buttonText}
-              buttonLabel={'Sign in'}
+              buttonLabel={"Sign in"}
               onPress={handleSignInClick}
             />
             <Button
@@ -86,7 +88,7 @@ export default function App(props) {
               fontSize={20}
               buttonHeight={35}
               textColor={colors.slateBlue}
-              buttonLabel={'Create an account'}
+              buttonLabel={"Create an account"}
               onPress={handleCreateAccountClick}
             />
             <Button
@@ -99,7 +101,7 @@ export default function App(props) {
             </Button>
             <Image
               style={styles.loginBackground}
-              source={require('../assets/login-background.jpg')}
+              source={require("../assets/login-background.jpg")}
             />
           </View>
         )}
@@ -110,23 +112,23 @@ export default function App(props) {
 
 const styles = StyleSheet.create({
   logoWrapper: {
-    position: 'absolute',
+    position: "absolute",
     top: 50,
-    alignItems: 'center',
+    alignItems: "center",
     width: 200,
   },
   heading: {
-    fontFamily: 'Overlock',
-    fontStyle: 'normal',
+    fontFamily: "Overlock",
+    fontStyle: "normal",
     fontWeight: 700,
     fontSize: 20,
     lineHeight: 24,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.dustyRose,
   },
   loginBackground: {
-    position: 'absolute',
-    resizeMode: 'contain',
+    position: "absolute",
+    resizeMode: "contain",
     bottom: 0,
     zIndex: -1,
   },
@@ -136,8 +138,8 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     marginTop: 50,
-    fontFamily: 'Overlock',
-    fontStyle: 'normal',
+    fontFamily: "Overlock",
+    fontStyle: "normal",
     fontWeight: 700,
     fontSize: 15,
     lineHeight: 18,
