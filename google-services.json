@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "979512979385",
+    "project_id": "flowertopia-8d1b8",
+    "storage_bucket": "flowertopia-8d1b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:979512979385:android:9532fca3c761e42a215068",
+        "android_client_info": {
+          "package_name": "com.anonymous.flowertopia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "979512979385-476a6sd60tfm3hg7r2svbsjo6skpe05b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anonymous.flowertopia",
+            "certificate_hash": "14945819abd21fe14c78ca6a65376bf38e1d5913"
+          }
+        },
+        {
+          "client_id": "979512979385-gtn6dt1uj4a964po4k1tucgvk984tr8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLEtXknlk9if44qLza6KmpymCTENG-EM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "979512979385-gtn6dt1uj4a964po4k1tucgvk984tr8m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

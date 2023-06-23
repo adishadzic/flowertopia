@@ -1,45 +1,82 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   View,
   Text,
   TextInput,
   StyleSheet,
   Image,
-  Checkbox,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { colors } from '../constants/colors';
 import Button from './Button';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import { auth } from '../firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { NewContext } from '../app/AuthContext';
 
-const AuthWindow = ({ onClose, isCreateAccount }) => {
+const AuthWindow = ({ onClose, isCreateAccount, onLoginSuccess }) => {
   const [isLogin, setIsLogin] = useState(!isCreateAccount);
   const [isSelected, setSelection] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { isAuthenticated, handleLoginSuccess } = useContext(NewContext);
 
-  const handleSubmit = () => {
-    // handle login or signup based on the current state
-    if (isLogin) {
-      console.log('Logging in with:', email, password);
-    } else {
-      console.log('Creating account with:', name, email, password);
-    }
+  const handleRegister = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        updateProfile(user, { displayName: name })
+          .then(() => {
+            console.log('Profile updated successfully');
+            Toast.show({
+              type: 'success',
+              text1: 'Signed up successfuly!',
+            });
+            setIsLogin(true);
+          })
+          .catch((error) => {
+            console.log('Failed to update profile:', error.message);
+          });
+      })
+      .catch((error) => alert(error.message));
   };
 
-  const handleClose = () => {
-    onClose();
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('login successful for', user.email);
+        onLoginSuccess();
+        Toast.show({
+          type: 'success',
+          text1: 'Logged in successfuly',
+        });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <View style={{ position: 'absolute', top: 50 }}>
+    <KeyboardAvoidingView
+      style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+    >
+      <View
+        style={{ position: 'absolute', top: 50 }}
+        onPress={() => setShowAuthWindow(false)}
+      >
         <Image
-          style={{ width: 180 }}
-          source={require('../assets/flowertopia-logo.svg')}
+          style={{ width: 180, zIndex: -1 }}
+          source={require('../assets/logo.jpg')}
         />
       </View>
       <View style={styles.authWindowContainer}>
@@ -68,34 +105,29 @@ const AuthWindow = ({ onClose, isCreateAccount }) => {
         <View style={styles.formContainer}>
           {!isLogin && (
             <TextInput
+              placeholderTextColor={colors.slateBlue}
               style={styles.input}
               placeholder="Name"
               value={name}
               onChangeText={setName}
             />
           )}
+          <Text>{isAuthenticated}</Text>
           <TextInput
+            placeholderTextColor={colors.slateBlue}
             style={styles.input}
             placeholder="Email"
             value={email}
             onChangeText={setEmail}
           />
           <TextInput
+            placeholderTextColor={colors.slateBlue}
             style={styles.input}
             placeholder="Password"
             secureTextEntry={true}
             value={password}
             onChangeText={setPassword}
           />
-          {/* TODO: Add Checbox component */}
-          {/* <View style={styles.checkboxContainer}>
-            <CheckBox
-              value={isSelected}
-              onValueChange={setSelection}
-              style={styles.checkbox}
-            />
-            <Text style={styles.label}>Remember me</Text>
-          </View> */}
           <Button
             bgColor={colors.slateBlue}
             borderRadius={5}
@@ -103,7 +135,7 @@ const AuthWindow = ({ onClose, isCreateAccount }) => {
             buttonHeight={35}
             textColor={colors.babyPink}
             buttonLabel={isLogin ? 'Login' : 'Create Account'}
-            onPress={handleSubmit}
+            onPress={isLogin ? handleLogin : handleRegister}
           />
         </View>
 
@@ -134,7 +166,7 @@ const AuthWindow = ({ onClose, isCreateAccount }) => {
         style={styles.loginBackground}
         source={require('../assets/login-background.jpg')}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -143,10 +175,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.babyPink,
-    minWidth: 350,
+    width: '80%',
     boxShadow: '0px 4px 4px #678C96',
     borderRadius: 20,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   tabContainer: {
     flexDirection: 'row',
@@ -175,12 +207,11 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
   },
   formContainer: {
-    width: '80%',
+    minWidth: '75%',
     paddingVertical: 20,
   },
   input: {
-    height: 40,
-    background: 'rgba(255, 249, 249, 0.5)',
+    backgroundColor: 'rgba(255, 249, 249, 0.5)',
     borderWidth: 1,
     borderColor: 'rgba(103, 140, 150, 0.8)',
     borderRadius: 5,
@@ -188,9 +219,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontFamily: 'Overlock',
     fontStyle: 'normal',
-    fontWeight: 400,
+    fontWeight: '400',
     fontSize: 16,
-    lineHeight: 10,
     color: 'rgba(103, 140, 150, 0.6)',
   },
   loginBackground: {
@@ -210,7 +240,7 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: 'Overlock',
     fontStyle: 'normal',
-    fontWeight: 400,
+    fontWeight: '400',
     fontSize: 16,
     lineHeight: 10,
     margin: 5,
@@ -227,9 +257,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Overlock',
     textAlign: 'center',
     fontStyle: 'normal',
-    fontWeight: 400,
+    fontWeight: '400',
     fontSize: 16,
-    lineHeight: 12,
+    lineHeight: 20,
     color: colors.slateBlue,
     marginBottom: 10,
   },

@@ -10,6 +10,8 @@ const Button = ({
   borderRadius,
   fontSize,
   buttonHeight,
+  additionalStyles,
+  isDisabled,
 }) => {
   const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -31,16 +33,20 @@ const Button = ({
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={{
-        backgroundColor: bgColor,
-        borderRadius: borderRadius || null,
-        alignItems: 'center',
-        justifyContent: 'center',
-        minWidth: 150,
-        height: buttonHeight,
-        paddingVertical: 5,
-        marginVertical: 10,
-      }}
+      disabled={isDisabled}
+      style={[
+        {
+          backgroundColor: bgColor,
+          borderRadius: borderRadius || null,
+          alignItems: 'center',
+          justifyContent: 'center',
+          minWidth: 150,
+          height: buttonHeight,
+          paddingVertical: 5,
+          marginVertical: 10,
+        },
+        additionalStyles,
+      ]}
     >
       <Text
         style={{

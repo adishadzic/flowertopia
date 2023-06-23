@@ -6,10 +6,25 @@
     },
     "name": "flowertopia",
     "slug": "flowertopia",
+    "plugins": [
+      "@react-native-google-signin/google-signin"
+    ],
     "splash": {
       "image": "./assets/splashscreen.png",
       "resizeMode": "cover",
       "backgroundColor": "#fff"
+    },
+    "android": {
+      "package": "com.anonymous.flowertopia",
+      "googleServicesFile": "./google-services.json"
+    },
+    "ios": {
+      "bundleIdentifier": "com.anonymous.flowertopia"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "117dd98b-e6b0-41ee-b049-a3b772287881"
+      }
     }
   }
 }
